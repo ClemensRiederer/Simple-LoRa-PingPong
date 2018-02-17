@@ -113,8 +113,8 @@ void sendData(uint8_t *data, uint8_t len) {
   //Write Payload to FiFo
   writeBuffer(RegFifo, data, len);
 
-	//Switch RFM to Tx
-	setOpMode(TX);
+  //Switch RFM to Tx
+  setOpMode(TX);
 
 }
 
@@ -132,27 +132,27 @@ uint8_t getData(uint8_t *data, int16_t *rssi, float *snr) {
 
 	//Check if there is a CRC error
   if( (readReg(RegIrqFlags) & PAYLOAD_CRC_ERROR) == PAYLOAD_CRC_ERROR ) {
-		Serial.println("CRC Error");
-		// return null
-		return 0x00;
-	} else {
-		Serial.println("CRC OK");
-	}
-	if ( (readReg(RegIrqFlags) & VALID_HEADER) != VALID_HEADER ) {
-		Serial.println("No valid header");
-		// return null
-		return 0x00;
-	} else {
-		Serial.println("Header OK");
-	}
+  	Serial.println("CRC Error");
+    	// return zero
+    	return 0x00;
+  } else {
+	Serial.println("CRC OK");
+  }
+  if ( (readReg(RegIrqFlags) & VALID_HEADER) != VALID_HEADER ) {
+  	Serial.println("No valid header");
+	// return null
+	return 0x00;
+  } else {
+	Serial.println("Header OK");
+  }
 	
-	location = readReg(RegFifoRxCurrentAddr); //Read start position of received package
+  location = readReg(RegFifoRxCurrentAddr); //Read start position of received package
   len = readReg(RegRxNbBytes);              //Read length of received package
   writeReg(RegFifoAddrPtr, location);       //Set SPI pointer to start of package
 
   readBuffer (RegFifo, data, len);
-	*rssi = getRSSI(); // get the rssi value
-	*snr = getSNR();   // get the snr value
+  *rssi = getRSSI(); // get the rssi value
+  *snr = getSNR();   // get the snr value
 
   return len;
 }
@@ -161,7 +161,7 @@ uint8_t getData(uint8_t *data, int16_t *rssi, float *snr) {
 * Description: clear the IRQ flags
 *****************************************************/
 void clearIRQ(void) {
-	//Clear interrupt register
+  //Clear interrupt register
   writeReg(RegIrqFlags,0xFF);
 }
 
@@ -172,11 +172,11 @@ void clearIRQ(void) {
 *
 *****************************************************/
 void writeReg(uint8_t addr, uint8_t data) {
-	digitalWrite(RFM_SS, LOW);
-	//Send Addres with MSB 1 to make it a write command
-	SPI.transfer(addr | 0x80);
-	SPI.transfer(data);
-	digitalWrite(RFM_SS, HIGH);
+  digitalWrite(RFM_SS, LOW);
+  //Send Addres with MSB 1 to make it a write command
+  SPI.transfer(addr | 0x80);
+  SPI.transfer(data);
+  digitalWrite(RFM_SS, HIGH);
 }
 
 /*****************************************************
@@ -186,15 +186,15 @@ void writeReg(uint8_t addr, uint8_t data) {
 ******************************************************/
 uint8_t readReg(uint8_t addr) {
 
-	uint8_t data;
-	digitalWrite(RFM_SS, LOW);
-	//Send Addres with MSB 0 to make it a read command
-	SPI.transfer(addr & 0x7F);
+  uint8_t data;
+  digitalWrite(RFM_SS, LOW);
+  //Send Addres with MSB 0 to make it a read command
+  SPI.transfer(addr & 0x7F);
   // Send 0x00 to be able to receive the answer from the RFM
-	data = SPI.transfer(0x00);
-	digitalWrite(RFM_SS, HIGH);
+  data = SPI.transfer(0x00);
+  digitalWrite(RFM_SS, HIGH);
 
-	return data;
+  return data;
 }
 
 /*****************************************************
@@ -202,13 +202,12 @@ uint8_t readReg(uint8_t addr) {
 *
 *****************************************************/
 void writeBuffer(uint8_t addr, uint8_t buf[], uint8_t len) {
-	
-	digitalWrite(RFM_SS, LOW);
-	//Send Addres with MSB 1 to make it a write command
-	SPI.transfer(addr | 0x80);
-	SPI.transfer(buf, len);
 
-	digitalWrite(RFM_SS, HIGH);
+  digitalWrite(RFM_SS, LOW);
+  //Send Addres with MSB 1 to make it a write command
+  SPI.transfer(addr | 0x80);
+  SPI.transfer(buf, len);
+  digitalWrite(RFM_SS, HIGH);
 }
 
 /*****************************************************
@@ -216,13 +215,13 @@ void writeBuffer(uint8_t addr, uint8_t buf[], uint8_t len) {
 *
 *****************************************************/
 void readBuffer(uint8_t addr, uint8_t buf[], uint8_t len) {
-	digitalWrite(RFM_SS, LOW);
-	//Send Addres with MSB 0 to make it a read command
+  digitalWrite(RFM_SS, LOW);
+  //Send Addres with MSB 0 to make it a read command
   SPI.transfer(addr & 0x7F);
   for (uint8_t i = 0; i < len; i++) {
-		buf[i] = SPI.transfer(0x00); // Send 0x00 to be able to receive the answer from the RFM
-	}
-	digitalWrite(RFM_SS, HIGH);
+    buf[i] = SPI.transfer(0x00); // Send 0x00 to be able to receive the answer from the RFM
+  }
+  digitalWrite(RFM_SS, HIGH);
 }
 /************************************************
 * Description : set opMode
@@ -426,12 +425,12 @@ void setChannel(Channel chan) {
 *	Get the RSSI value of the latest packet received
 ****************************************************/
 int16_t getRSSI(void) {
-	return (readReg(RegPktRssiValue) - 157);
+  return (readReg(RegPktRssiValue) - 157);
 }
 /****************************************************
 * Estimation of SNR on last packet received.In two’s compliment
 * format mutiplied by 4.
 *****************************************************/
 float getSNR(void) {
-	return ((int8_t)readReg(RegPktSnrValue)) * 0.25;
+  return ((int8_t)readReg(RegPktSnrValue)) * 0.25;
 }
