@@ -11,11 +11,11 @@
 #define RegFifoAddrPtr        0x0D
 #define RegFifoTxBaseAddr     0x0E
 #define RegFifoRxBaseAddr     0x0F
-#define RegFifoRxCurrentAddr	0x10
+#define RegFifoRxCurrentAddr  0x10
 #define RegIrqFlags           0x12
-#define RegRxNbBytes					0x13
-#define RegPktSnrValue				0x19
-#define RegPktRssiValue				0x1A
+#define RegRxNbBytes          0x13
+#define RegPktSnrValue        0x19
+#define RegPktRssiValue       0x1A
 #define RegModemConfig1       0x1D
 #define RegModemConfig2       0x1E
 #define RegModemConfig3       0x26
