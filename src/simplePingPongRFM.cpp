@@ -49,12 +49,12 @@ void initRFM(void) {
 	//set RFM to sleep
 	setOpMode(SLEEP);
 
-  //Set RFM in LoRa mode
+  	//Set RFM in LoRa mode
 	setOpMode(LORA);
 
-  //Set RFM in Standby mode wait on mode ready
+  	//Set RFM in Standby mode wait on mode ready
 	setOpMode(STANDBY);
-  delay(10);
+  	delay(10);
 
 	//Set carrier frequency
 	setChannel(CH1);
@@ -65,21 +65,21 @@ void initRFM(void) {
 	setConfig3(LDR);                      //LowDataRateOptimize ON, AGC auto ON
 
 	//PA pin (maximal power)
-  writeReg(RegPaConfig, 0xFF);
+  	writeReg(RegPaConfig, 0xFF);
 
 	//Preamble length set to 8 symbols
-  //0x0008 + 4 = 12
-  writeReg(RegPreambleMsb, 0x00);
-  writeReg(RegPreambleLsb, 0x08);
+	//0x0008 + 4 = 12
+	writeReg(RegPreambleMsb, 0x00);
+	writeReg(RegPreambleLsb, 0x08);
 
 	//Rx Timeout set to 37 symbols (RX operation time-out value expressed as number of symbols)
-  writeReg(RegSymbTimeoutLsb, 0x25);
+  	writeReg(RegSymbTimeoutLsb, 0x25);
 
-  //Set LoRa sync word
-  writeReg(RegSyncWord, 0x34);
+  	//Set LoRa sync word
+  	writeReg(RegSyncWord, 0x34);
 
-  //Set IQ to normal values
-  writeReg(RegInvertIQ, 0x27);
+  	//Set IQ to normal values
+	writeReg(RegInvertIQ, 0x27);
 }
 
 /*****************************************************************************************
@@ -91,7 +91,7 @@ void initRx(void) {
   writeReg(RegDioMapping1, RXDONE);
 
   //Switch to continuous receive
-	setOpMode(RXCONTINUOUS);
+  setOpMode(RXCONTINUOUS);
 }
 /*****************************************************************************************
 * Description : Function for sending a package with the RFM
@@ -100,8 +100,8 @@ void initRx(void) {
 *****************************************************************************************/
 void sendData(uint8_t *data, uint8_t len) {
 
-	//Switch DIO0 to TxDone
-	writeReg(RegDioMapping1, TXDONE);
+  //Switch DIO0 to TxDone
+  writeReg(RegDioMapping1, TXDONE);
 
   // initialize the payload size and address pointers
   writeReg(RegFifoTxBaseAddr, 0x00);
