@@ -43,7 +43,7 @@
 #define MODE_RXCONTINUOUS     0x05
 #define MODE_LORA             0x80
 
-/*--------- IQR Flags --------------*/
+/*--------- IRQ Flags --------------*/
 #define TX_DONE               0x08
 #define VALID_HEADER          0x10
 #define PAYLOAD_CRC_ERROR     0x20
