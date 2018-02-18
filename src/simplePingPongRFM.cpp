@@ -358,7 +358,7 @@ void setConfig3(bool LDR) {
 	}
 }
 
-/************************************************
+/*************************************************
 * Description : set Channel
 * Arguments   : Enum chan CH1, CH2, CH3, CH4, CH5, CH6, CH7, CH8, CH9
 *
