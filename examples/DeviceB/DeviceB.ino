@@ -29,10 +29,10 @@ void setup() {
 	pinMode(RFM_SS, OUTPUT);
 	digitalWrite(RFM_SS, HIGH);
 
-  pinMode(DIO0, INPUT);
-  attachInterrupt(digitalPinToInterrupt(DIO0), IRQ, RISING);
+	pinMode(DIO0, INPUT);
+	attachInterrupt(digitalPinToInterrupt(DIO0), IRQ, RISING);
 
-  initRFM();
+	initRFM();
 	initRx();
 }
 
@@ -51,12 +51,12 @@ void loop() {
 	}
 
   if (TX_OK) {
-    Serial.println("Tx done");
-		Serial.println("switch to receive");
-    initRx();
-		receive = true;
-    TX_OK = false;
-		clearIRQ();
+	Serial.println("Tx done");
+	Serial.println("switch to receive");
+	initRx();
+	receive = true;
+	TX_OK = false;
+	clearIRQ();
   }
 
 	if (RX_OK) {
@@ -84,8 +84,8 @@ void IRQ() {
 		TX_OK = true;
 		transmit = false;
 	}
-  if (receive) {
+	if (receive) {
 		RX_OK = true;
-    receive = false;
+		receive = false;
 	}
 }
