@@ -8,6 +8,7 @@
 #define RegFrfMid             0x07
 #define RegFrfLsb             0x08
 #define RegPaConfig           0x09
+#define RegLna								0x0C
 #define RegFifoAddrPtr        0x0D
 #define RegFifoTxBaseAddr     0x0E
 #define RegFifoRxBaseAddr     0x0F
