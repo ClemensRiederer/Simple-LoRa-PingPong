@@ -66,6 +66,9 @@ void initRFM(void) {
 
 	//PA pin (maximal power)
   	writeReg(RegPaConfig, 0xFF);
+	
+	//Switch LNA boost on High Frequency (RFI_HF) LNA current adjustment Boost on, 150% LNA current, LNA gain setting:G1 = maximum gain
+  	writeReg(RegLna,0x23);
 
 	//Preamble length set to 8 symbols
 	//0x0008 + 4 = 12
