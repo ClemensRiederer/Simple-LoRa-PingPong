@@ -5,12 +5,12 @@ Arduino library for Peer to Peer LoRa communications in the 868 MHz band.
 
 ## Starting Ping Pong
 ### Device A
-Device A waits 60s and starts transmitting. After a sucessfull transmit Device A listens to incoming messages.
+Device A waits 60 seconds and starts transmitting. After a sucessfull transmit Device A listens to incoming messages.
 If a message is received the device will print the RSSI and SNR value from the incoming signal. And the cycle starts again.
 To prevent both devices from jamming in receive mode, device A is only listening for 2 minutes and then sends a message again.
 
 ### Device B
-Device B starts listening immediately. After receipt of the payload, the device prints the signal strength and sends a message back and goes again to the reception mode.
+Device B starts listening immediately. After receipt of the payload, the device prints the signal strength, waits 60 seconds, sends a message back and goes again to the reception mode.
 
 
 ## Needed Parts
