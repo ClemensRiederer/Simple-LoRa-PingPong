@@ -69,7 +69,6 @@ void loop() {
 			receive = false;
 			transmit = true;
 			sendData(dataTx, dataLenTx);
-			clearIRQ();
 			elapsedTime = millis();
 		}
 	}
