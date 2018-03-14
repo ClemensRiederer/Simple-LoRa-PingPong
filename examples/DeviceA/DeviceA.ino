@@ -66,10 +66,11 @@ void loop() {
 			Serial.println("couldn't receive a packet within 2 min");
 			Serial.println("switch to transmit");
 			Serial.println("Send Payload 0xAA, 0xBB");
-			sendData(dataTx, dataLenTx);
 			receive = false;
 			transmit = true;
+			sendData(dataTx, dataLenTx);
 			clearIRQ();
+			elapsedTime = millis();
 		}
 	}
 	
