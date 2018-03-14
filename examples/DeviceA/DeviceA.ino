@@ -12,7 +12,7 @@ volatile bool receive = false;
 int rssiValue;
 float snrValue;
 
-uint8_t dataTx[2];
+uint8_t dataTx[2] = {0xAA, 0xBB};
 uint8_t dataLenTx = 2;
 
 uint8_t dataRx[64];
@@ -21,6 +21,8 @@ uint8_t dataLenRx;
 uint32_t currentTime;
 uint32_t elapsedTime;
 uint32_t interval = 60000;
+uint32_t startTimeRx;
+uint32_t waitTimeRx = 120000;
 
 void setup() {
 	Serial.begin(115200);
@@ -39,25 +41,39 @@ void loop() {
 
 	if (transmit) {
 	currentTime = millis();
-		if (currentTime - elapsedTime > interval) {
+		if (currentTime - elapsedTime > interval) { // wait 60 sec and start transmitting
 			Serial.println("switch to transmit");
 			Serial.println("Send Payload 0xAA, 0xBB");
-			dataTx[0] = 0xAA;
-			dataTx[1] = 0xBB;
-			sendData(dataTx, dataLenTx);
+			sendData(dataTx, dataLenTx); // transmit data
 			elapsedTime = currentTime;
 		}
 	}
-
+	// if the message is successfully transmitted
 	if (TX_OK) {
 		Serial.println("Tx done");
 		Serial.println("switch to receive");
-		initRx();
+		initRx(); // switch RFM module to receive
 		receive = true;
 		TX_OK = false;
+		startTimeRx = millis(); //timestamp for beginning to receive
 		clearIRQ();
 	}
-
+	
+	// if the device does not receive a message within 2 minutes, switch to transmit again.
+	if (receive) {
+		currentTime = millis();
+		if (currentTime - startTimeRx > waitTimeRx) {
+			Serial.println("couldn't receive a packet within 2 min");
+			Serial.println("switch to transmit");
+			Serial.println("Send Payload 0xAA, 0xBB");
+			sendData(dataTx, dataLenTx);
+			receive = false;
+			transmit = true;
+			clearIRQ();
+		}
+	}
+	
+	// if the message is successfully received
 	if (RX_OK) {
 		Serial.println("Rx done");
 		dataLenRx = getData(dataRx, &rssiValue, &snrValue);
@@ -77,7 +93,7 @@ void loop() {
 	}
 }
 
-//Interrupt function
+//Interrupt function from the IRQ flag of the RFM module TX_DONE or RX_DONE on Hardware interrupt pin 2
 void IRQ() {
 	if (transmit) {
 		TX_OK = true;
