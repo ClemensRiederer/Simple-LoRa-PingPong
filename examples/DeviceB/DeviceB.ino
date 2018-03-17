@@ -31,6 +31,9 @@ void setup() {
 
 	pinMode(DIO0, INPUT);
 	attachInterrupt(digitalPinToInterrupt(DIO0), IRQ, RISING);
+	
+  	Serial.println("LoRa peer to peer example");
+  	Serial.println("Initialize Device B and start listening");
 
 	initRFM();
 	initRx();
