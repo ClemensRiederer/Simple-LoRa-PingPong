@@ -12,7 +12,7 @@ volatile bool receive = false;
 int rssiValue;
 float snrValue;
 
-uint8_t dataTx[2] = {0xAA, 0xBB};
+uint8_t dataTx[2];
 uint8_t dataLenTx = 2;
 
 uint8_t dataRx[64];
@@ -47,6 +47,8 @@ void loop() {
 		if (currentTime - elapsedTime > interval) { // wait 60 sec and start transmitting
 			Serial.println("switch to transmit");
 			Serial.println("Send Payload 0xAA, 0xBB");
+			dataTx[0] = 0xAA;
+			dataTx[1] = 0xBB;
 			sendData(dataTx, dataLenTx); // transmit data
 			elapsedTime = currentTime;
 		}
